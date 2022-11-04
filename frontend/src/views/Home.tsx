@@ -107,7 +107,7 @@ export const Home = (props: Props) => {
 
   const queryPapers = async () => {
     try {
-      if ( props.searchState ) {
+      if (props.searchState) {
         const result = await getSemanticallySimilarPapersbyText(props.searchState, props.years, props.categories)
         props.setPapers(result.papers)
         props.setTotal(result.total)
@@ -133,100 +133,99 @@ export const Home = (props: Props) => {
   return (
     <>
       <main role="main">
-      <section className="jumbotron text-center mb-0 bg-white" style={{ paddingTop: '40px', width: "95%"}}>
-      <div className="container">
-       <h1 className="jumbotron-heading">arXiv Paper Search</h1>
-       <p className="lead text-muted">
-           This demo uses the built in Vector Search capabilities of Redis Enterprise
-           to show how unstructured data, such as paper abstracts (text), can be used to create a powerful
-           search engine.
-       </p>
-       <p className="lead text-muted">
-           <strong>Enter a search query below to discover scholarly papers hosted by <a href="https://arxiv.org/" target="_blank">arXiv</a> (Cornell University).</strong>
-       </p>
-       <div className="container">
-        <SearchBar
-          placeholder='Search'
-          value={props.searchState}
-          onChange={(newValue) => handleSearchChange(newValue)}
-          onRequestSearch={() => queryPapers()}
-          style={{
-            margin: '20px 0',
-          }}
-        />
-       </div>
-       <div>
-        <FormControl sx={{ m: 1, width: 150 }}>
-          <InputLabel id="demo-multiple-checkbox-label">Year</InputLabel>
-          <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={props.years}
-            onChange={handleYearSelection}
-            input={<OutlinedInput label="Tag" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-          >
-            {yearOptions.map((year) => (
-              <MenuItem key={year} value={year}>
-                <Checkbox checked={props.years.indexOf(year) > -1} />
-                <ListItemText primary={year} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: 300 }}>
-          <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
-          <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={props.categories}
-            onChange={handleCatSelection}
-            input={<OutlinedInput label="Category" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-          >
-            {categoryOptions.map((cat) => (
-              <MenuItem key={cat} value={cat}>
-                <Checkbox checked={props.categories.indexOf(cat) > -1} />
-                <ListItemText primary={cat} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-    </div>
-      </div>
-     </section>
-      <div className="album py-5 bg-light">
-        <div className="container">
-          <p style={{fontSize: 15}}>
-            <Tooltip title="Filtered paper count" arrow>
-              <em>{props.total} searchable arXiv papers</em>
-            </Tooltip>
-          </p>
-        </div>
-        <div className="container">
-          {props.papers && (
-            <div className="row">
-              {props.papers.map((paper) => (
-                 <Card
-                  key={paper.pk}
-                  title={paper.title}
-                  authors={paper.authors}
-                  paperId={paper.paper_id}
-                  numPapers={15}
-                  paperCat={paper.categories}
-                  paperYear={paper.year}
-                  categories={props.categories}
-                  years={props.years}
-                  similarity_score={paper.similarity_score}
-                  setState={props.setPapers}
-                  setTotal={props.setTotal}
+        <section className="jumbotron text-center mb-0 bg-white" style={{ paddingTop: '40px', width: "95%" }}>
+          <div className="container">
+            <h1 className="jumbotron-heading">arXiv VSS Demo</h1>
+            <p className="lead text-muted">
+              This demo is a copy the Vector Similarity Search used in the Redis/MLOps Hackathon to show how unstructured data, such as paper abstracts (text), can be used to create a powerful
+              search engine. Changes were made on the frontEnd side to understand how they are connected. For original demo please check <a href="https://docsearch.redisventures.com/" target="_blank">here.</a>
+            </p>
+            <p className="lead text-muted">
+              <strong>Enter a search query below to discover scholarly papers hosted by <a href="https://arxiv.org/" target="_blank">arXiv</a> (Cornell University).</strong>
+            </p>
+            <div className="container">
+              <SearchBar
+                placeholder='Search'
+                value={props.searchState}
+                onChange={(newValue) => handleSearchChange(newValue)}
+                onRequestSearch={() => queryPapers()}
+                style={{
+                  margin: '20px 0',
+                }}
+              />
+            </div>
+            <div>
+              <FormControl sx={{ m: 1, width: 150 }}>
+                <InputLabel id="demo-multiple-checkbox-label">Year</InputLabel>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={props.years}
+                  onChange={handleYearSelection}
+                  input={<OutlinedInput label="Tag" />}
+                  renderValue={(selected) => selected.join(', ')}
+                  MenuProps={MenuProps}
+                >
+                  {yearOptions.map((year) => (
+                    <MenuItem key={year} value={year}>
+                      <Checkbox checked={props.years.indexOf(year) > -1} />
+                      <ListItemText primary={year} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={props.categories}
+                  onChange={handleCatSelection}
+                  input={<OutlinedInput label="Category" />}
+                  renderValue={(selected) => selected.join(', ')}
+                  MenuProps={MenuProps}
+                >
+                  {categoryOptions.map((cat) => (
+                    <MenuItem key={cat} value={cat}>
+                      <Checkbox checked={props.categories.indexOf(cat) > -1} />
+                      <ListItemText primary={cat} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+        </section>
+        <div className="album py-5 bg-light">
+          <div className="container">
+            <p style={{ fontSize: 15 }}>
+              <Tooltip title="Filtered paper count" arrow>
+                <em>{props.total} searchable arXiv papers</em>
+              </Tooltip>
+            </p>
+          </div>
+          <div className="container">
+            {props.papers && (
+              <div className="row">
+                {props.papers.map((paper) => (
+                  <Card
+                    key={paper.pk}
+                    title={paper.title}
+                    authors={paper.authors}
+                    paperId={paper.paper_id}
+                    numPapers={15}
+                    paperCat={paper.categories}
+                    paperYear={paper.year}
+                    categories={props.categories}
+                    years={props.years}
+                    similarity_score={paper.similarity_score}
+                    setState={props.setPapers}
+                    setTotal={props.setTotal}
                   />
                 ))}
-            </div>
+              </div>
             )}
           </div>
         </div>
